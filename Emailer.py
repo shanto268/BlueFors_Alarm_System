@@ -37,11 +37,9 @@ class Emailer:
         self.emailContent = emailContent
         self.path2pdf = ""
 
-    def send_email(self):
-        destination = self.email_list
+    def send_email(self, destination):
         subject = self.subjectLine
         message = self.emailContent
-
         server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT)
         server.starttls()
         server.login(GMAIL_USERNAME, GMAIL_PASSWORD)
@@ -53,7 +51,6 @@ class Emailer:
         msg['To'] = destination
         # Insert the text to the msg going by e-mail
         msg.attach(MIMEText(message, "plain"))
-        # Attach the pdf to the msg going by e-mail
         # send msg
         server.send_message(msg)
         server.close()
@@ -105,4 +102,4 @@ class Emailer:
         emails = self.email_list
         for email in emails:
             print("Emailing {}".format(email))
-            self.send_email()
+            self.send_email(email)

@@ -1,2 +1,6 @@
 .env
 *.json
+__pycache__/*
+__pycache__/*.pyc
+*csv
+log_files/*

@@ -206,7 +206,7 @@ class BlueFors(Instrument):
             self.log.warn('Cannot parse log file: {}. Returning np.nan instead of the pressure value.'.format(err))
             return np.nan
     
-    def get_pulse_tube_status(self) -> bool:
+    def get_pulse_tube_status(self) -> int:
         '''
         Return the current on/off status of the pulse tube. 
         In the .log files, it is under "Status_[date].log",
@@ -216,7 +216,7 @@ class BlueFors(Instrument):
         None
 
         Returns:
-        On/Off status (bool) of pulse tube
+        On/Off status (int) of pulse tube
 
         To Do:
         - If we want more status, modify this to just select the status, 
@@ -254,9 +254,13 @@ class BlueFors(Instrument):
 
             df.index = pd.to_datetime(df['date']+'-'+df['time'], format='%d-%m-%y-%H:%M:%S')
 
-            current_pulse_tube_status = df.iloc[-1]['cparun_status']
+            try:
+                current_pulse_tube_status = int(df.iloc[-1]['cparun_status'])
+            except:
+                current_pulse_tube_status = -400 # code for NaN
 
             return current_pulse_tube_status
+
         except (PermissionError, OSError) as err:
             self.log.warn('Cannot access log file: {}. Returning np.nan instead of the pressure value.'.format(err))
             return np.nan
