@@ -6,6 +6,4 @@
 
 ## Todo:
 
-- read from BlueFors API
-- patch into a control program
-- refactor the control program to be able to send Emails/Texts
+- Figure out which channels are aassociated w/ which lines
