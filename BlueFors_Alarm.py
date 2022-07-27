@@ -62,6 +62,9 @@ def start_alarm_system(folder_path, mc_channel_id=6, temp_threshold=0.05, wait_t
         pulse_tube_status = bf.get_pulse_tube_status()
         mc_temp = bf.get_temperature(mc_channel_id)
 
+        print("Pulse Tube Status: {}".format(pulse_tube_status))
+        print("MC Temperature: {} K".format(mc_temp))
+
         pulse_tube_off = bool(pulse_tube_status == 0)
         mc_temp_high = bool(mc_temp >= temp_threshold)
 
@@ -75,6 +78,7 @@ def start_alarm_system(folder_path, mc_channel_id=6, temp_threshold=0.05, wait_t
             stop = True
             exit()
 
+        print("Waiting for next reading...")
         time.sleep(wait_time)
 
 
