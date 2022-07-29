@@ -12,7 +12,7 @@ from BlueFors import BlueFors
 from Emailer import Emailer
 import csv
 import time
-import Slack_Messenger
+from Slack_Messenger import Slack_er
 
 def get_subject(pt_off, mc_temp_high, temp):
     subject = []
@@ -75,8 +75,8 @@ def start_alarm_system(folder_path, mc_channel_id=6, temp_threshold=0.05, wait_t
     slack_channel = "sneezy-bluefors"
 
     # Send message that the alarm system is activated
-    Slack_Messenger.connect_to_slack()
-    Slack_Messenger.send_message(slack_channel, '🚨 BlueFors Alarm is **active**!')
+    Slacker = Slack_er()()
+    Slacker.send_message(slack_channel, '🚨 BlueFors Alarm is **active**!')
 
     while (not stop):
 

@@ -1,4 +1,4 @@
-import Slack_Messenger
+from Slack_Messenger import Slack_er
 
-Slack_Messenger.connect_to_slack()
-Slack_Messenger.send_message('testing_sneezy-bluefors', 'text')
+Slacker = Slack_er()
+Slacker.send_message('testing_sneezy-bluefors', 'text')

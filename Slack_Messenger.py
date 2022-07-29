@@ -17,23 +17,18 @@ from dotenv import load_dotenv
 load_dotenv(".env")
 SLACK_TOKEN = os.environ.get('SLACK_TOKEN')
 
+class Slack_er():
 
-def connect_to_slack():
-    '''
-    Connects us to Slack API
+    def __init__(self):
+        self.client = slack.WebClient(SLACK_TOKEN)
 
-    Args:
-    token (str): 
-    '''
-    client = slack.WebClient(SLACK_TOKEN)
+    def send_message(self, channel, text):
+        '''
+        Sends a message to a specified channel w/ a specific message
 
-def send_message(channel, text):
-    '''
-    Sends a message to a specified channel w/ a specific message
-
-    Args:
-    channel (str): the channel in slack we want to contact (you don't need #)
-    text (str): message you want to send to that channel
-    '''
-    client.chat_postMessage(channel=channel, text=text)
+        Args:
+        channel (str): the channel in slack we want to contact (you don't need #)
+        text (str): message you want to send to that channel
+        '''
+        self.client.chat_postMessage(channel=channel, text=text)
 
