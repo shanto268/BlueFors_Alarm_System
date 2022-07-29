@@ -75,8 +75,13 @@ def start_alarm_system(folder_path, mc_channel_id=6, temp_threshold=0.05, wait_t
     slack_channel = "sneezy-bluefors"
 
     # Send message that the alarm system is activated
+<<<<<<< HEAD
     slacker = Slack_er()
     slacker.send_message(slack_channel, '🚨 BlueFors Alarm is **active**!')
+=======
+    Slacker = Slack_er()()
+    Slacker.send_message(slack_channel, '🚨 BlueFors Alarm is **active**!')
+>>>>>>> 506c751b9260ebe8a985161cb3b4b6ba1e749252
 
     while (not stop):
 
