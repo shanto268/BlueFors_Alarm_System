@@ -26,7 +26,8 @@ def get_subject(pt_off, mc_temp_high, temp):
     if mc_temp_high:
         subject.append("BlueFors is WARM.")
 
-    tail_string = "Current temperature is {} K".format(temp)
+    tail_string = " Current temperature is {} K".format(temp)
+    subject.append(tail_string)
 
     subject = "".join(subject)
     return subject
@@ -75,13 +76,8 @@ def start_alarm_system(folder_path, mc_channel_id=6, temp_threshold=0.05, wait_t
     slack_channel = "sneezy-bluefors"
 
     # Send message that the alarm system is activated
-<<<<<<< HEAD
-    slacker = Slack_er()
-    slacker.send_message(slack_channel, '🚨 BlueFors Alarm is **active**!')
-=======
-    Slacker = Slack_er()()
-    Slacker.send_message(slack_channel, '🚨 BlueFors Alarm is **active**!')
->>>>>>> 506c751b9260ebe8a985161cb3b4b6ba1e749252
+    Slacker = Slack_er()
+    Slacker.send_message(slack_channel, '🚨 BlueFors Alarm was just activated!')
 
     while (not stop):
 
@@ -105,7 +101,8 @@ def start_alarm_system(folder_path, mc_channel_id=6, temp_threshold=0.05, wait_t
             Email.alert()
 
             # Send message to Slack
-            slacker.send_message(channel, get_subject(pulse_tube_off, mc_tmc_temp_highemp_high, mc_temp))
+            slack_message = '<!channel> ' + get_subject(pulse_tube_off, mc_temp_high, mc_temp)
+            Slacker.send_message(slack_channel, slack_message)
 
             stop = True
             exit()
