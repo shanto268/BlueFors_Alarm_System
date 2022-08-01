@@ -5,6 +5,8 @@ Program : LFL_Lab_Maintenance/BlueFors_Alarm.py
 ===========================================
 Summary: Sends out an email when pulse tubes are off
          or when the fridge's temperature is >= 50mK
+
+         Launches program w/o GUI
 """
 __author__ = "Clark Miyamoto"
 
@@ -113,6 +115,6 @@ def start_alarm_system(folder_path, mc_channel_id=6, temp_threshold=0.05, wait_t
 
 
 
-if __name__ == "__main__":
-    folder_path =  r'C:\Users\lfl\Bluefors logs'
+if __name__=='__main__':
+    folder_path = r'C:\Users\lfl\Bluefors logs'
     start_alarm_system(folder_path)
