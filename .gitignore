@@ -5,3 +5,4 @@ __pycache__/*.pyc
 *csv
 log_files/*
 .DS_Store
+BlueFors_Logs/*

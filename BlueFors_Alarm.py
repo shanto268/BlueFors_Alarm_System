@@ -10,11 +10,15 @@ Summary: Sends out an email when pulse tubes are off
 """
 __author__ = "Clark Miyamoto"
 
+import csv
+import logging
+import time
+
 from BlueFors import BlueFors
 from Emailer import Emailer
-import csv
-import time
 from Slack_Messenger import Slack_er
+
+logging.getLogger('qcodes.instrument.instrument').setLevel(logging.ERROR)
 
 def get_subject(pt_off, mc_temp_high, temp):
     subject = []
@@ -75,7 +79,7 @@ def start_alarm_system(folder_path, mc_channel_id=6, temp_threshold=0.05, wait_t
     stop = False
     text_list = [""]
     email_list = get_email_list()
-    slack_channel = "sneezy-bluefors"
+    slack_channel = "test-gpt"
 
     # Send message that the alarm system is activated
     Slacker = Slack_er()
@@ -97,10 +101,6 @@ def start_alarm_system(folder_path, mc_channel_id=6, temp_threshold=0.05, wait_t
             # Send out an email
             subject = get_subject(pulse_tube_off, mc_temp_high, mc_temp)
             content = get_content()
-            Email = Emailer(email_list, text_list,
-                    subjectLine=subject,
-                    emailContent=content)
-            Email.alert()
 
             # Send message to Slack
             slack_message = '<!channel> ' + get_subject(pulse_tube_off, mc_temp_high, mc_temp)
@@ -116,5 +116,5 @@ def start_alarm_system(folder_path, mc_channel_id=6, temp_threshold=0.05, wait_t
 
 
 if __name__=='__main__':
-    folder_path = r'C:\Users\lfl\Bluefors logs'
+    folder_path = r'Bluefors_Logs'
     start_alarm_system(folder_path)

@@ -2,10 +2,12 @@
 # Etienne Dumur <etienne.dumur@gmail.com>, september 2020
 
 import os
-import pandas as pd
-import numpy as np
 from datetime import date
+
+import numpy as np
+import pandas as pd
 from qcodes.instrument.base import Instrument
+
 
 class BlueFors(Instrument):
     """
@@ -227,36 +229,37 @@ class BlueFors(Instrument):
         file_path = os.path.join(self.folder_path, folder_name, 'Status_'+folder_name+'.log')
 
         try:
-            df = pd.read_csv(file_path,
-                            delimiter=',',
-                            names=['date', 'time',
-                                    'ctrl_pres_ok', 'ctrl_pres_ok_status', 
-                                    'ctrl_pres', 'ctrl_pres_status', 
-                                    'cpastate', 'cpastate_status',
-                                    'cparun', 'cparun_status',
-                                    'cpawarn', 'cpawarn_status',
-                                    'cpaerr', 'cpaerr_status',
-                                    'cpatempwi', 'cpatempwi_status',
-                                    'cpatempwo', 'cpatempwo_status',
-                                    'cpatempo', 'cpatempo_status',
-                                    'cpatemph', 'cpatemph_status',
-                                    'cpalp', 'cpalp_status',
-                                    'cpalpa', 'cpalpa_status',
-                                    'cpahp', 'cpahp_status',
-                                    'cpahpa', 'cpahpa_status',
-                                    'cpadp', 'cpadp_status',
-                                    'cpacurrent','cpacurrent_status',
-                                    'cpahours', 'cpahours_status',
-                                    'cpascale', 'cpascale_status',
-                                    'cpasn', 'cpasn_status',
-                                    'ctr_pressure_ok', 'ctr_pressure_ok_status'],
-                            header=None)
+            # Initialize an empty list
+            data_list = []
 
-            df.index = pd.to_datetime(df['date']+'-'+df['time'], format='%d-%m-%y-%H:%M:%S')
+            # Open the file
+            with open(file_path, 'r') as file:
+                for line in file:
+                    # Split the line into a list of values
+                    values = line.strip().split(',')
 
+                    # The first two values are 'date' and 'time'
+                    date_time = pd.to_datetime(values[0] + ' ' + values[1], format='%d-%m-%y %H:%M:%S')
+
+                    # The remaining values are alternating keys and values
+                    data = {values[i]: float(values[i + 1]) for i in range(2, len(values), 2)}
+
+                    # Append the data to the list
+                    data_list.append(data)
+
+            # Convert the list of dictionaries to a DataFrame
+            df = pd.DataFrame(data_list)
+
+            # Set the DataFrame's index to 'datetime'
+            # df.index = pd.to_datetime(df['date'] + ' ' + df['time'], format='%d-%m-%y %H:%M:%S')
+            # df.index.name = 'datetime'
+            # df['date'] = df['date'].astype(str)
+            # df['time'] = df['time'].astype(str)
+            # df.index = pd.to_datetime(df['date']+' '+df['time'], format='%d-%m-%y %H:%M:%S')
             try:
-                current_pulse_tube_status = int(df.iloc[-1]['cparun_status'])
-            except:
+                current_pulse_tube_status = int(df.iloc[-1]['cparun'])
+            except ValueError as err:
+                print('Cannot parse log file: {}. Returning -400 instead of the pressure value.'.format(err))
                 current_pulse_tube_status = -400 # code for NaN
 
             return current_pulse_tube_status
@@ -265,5 +268,7 @@ class BlueFors(Instrument):
             self.log.warn('Cannot access log file: {}. Returning np.nan instead of the pressure value.'.format(err))
             return np.nan
         except IndexError as err:
+            self.log.warn('Cannot parse log file: {}. Returning np.nan instead of the pressure value.'.format(err))
+            return np.nan
             self.log.warn('Cannot parse log file: {}. Returning np.nan instead of the pressure value.'.format(err))
             return np.nan
