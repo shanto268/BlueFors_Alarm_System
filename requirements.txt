@@ -1,0 +1,6 @@
+gooey==1.0.8.1
+numpy==1.25.0
+pandas==2.0.2
+python-dotenv==1.0.1
+qcodes==0.44.0
+slackclient==2.9.4

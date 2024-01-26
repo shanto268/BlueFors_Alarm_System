@@ -8,7 +8,7 @@ Summary: Sends out an email when pulse tubes are off
 
          Launches program w/o GUI
 """
-__author__ = "Clark Miyamoto"
+__author__ = ["Sadman Ahmed Shanto","Evangelos Vlachos","Clark Miyamoto"]
 
 import csv
 import logging
@@ -111,9 +111,6 @@ def start_alarm_system(folder_path, mc_channel_id=6, temp_threshold=0.05, wait_t
 
         print("Waiting for next reading...")
         time.sleep(wait_time)
-
-
-
 
 if __name__=='__main__':
     folder_path = r'Bluefors_Logs'

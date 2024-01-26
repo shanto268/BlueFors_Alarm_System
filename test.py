@@ -1,6 +1,9 @@
-import BlueFors
+import asyncio
 
-folder_path = r'C:\Users\lfl\Bluefors logs'
+import BlueFors
+from Slack_Messenger import Slack_er
+
+folder_path = 'Bluefors_Logs'
 
 bf = BlueFors.BlueFors('bf_fridge',
               folder_path=folder_path,
@@ -16,5 +19,9 @@ bf = BlueFors.BlueFors('bf_fridge',
               channel_still=6,
               channel_mixing_chamber=5)
 
+mc_channel_id=6
+Slacker = Slack_er(bf)
+asyncio.run(Slacker.listen_to_slack_events())
+
 print(bf.get_pulse_tube_status())
-print(bf.get_temperature(6))
+print(bf.get_temperature(mc_channel_id))
